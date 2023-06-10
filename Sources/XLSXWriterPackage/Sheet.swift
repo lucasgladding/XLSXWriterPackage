@@ -14,6 +14,7 @@ public class Sheet {
         case formula(String)
         case image(String)
         case number(Double)
+        case richString([RichString])
         case string(String)
         case unix(Int)
         case url(String)
@@ -46,6 +47,8 @@ public class Sheet {
             error = image.withCString { worksheet_insert_image(self.lxw_worksheet, r, c, $0) }
         case .number(let number):
             error = worksheet_write_number(self.lxw_worksheet, r, c, number, format)
+        case .richString(let richString):
+            error = write(richString: richString, row: r, col: c, format: format)
         case .string(let string):
             error = string.withCString { worksheet_write_string(self.lxw_worksheet, r, c, $0, format) }
         case .unix(let unix):
@@ -82,14 +85,15 @@ public class Sheet {
         }
     }
 
-    public func write(_ content: [RichString], location: Location, format: Format? = nil) {
+    private func write(
+        richString: [RichString],
+        row: UInt32,
+        col: UInt16,
+        format: UnsafeMutablePointer<lxw_format>? = nil
+    ) -> lxw_error? {
         var error: lxw_error?
 
-        let r = UInt32(location.row)
-        let c = UInt16(location.col)
-        let format = get_lxw_format(from: format)
-
-        var richStringTupleArray = content.map { richString in
+        var richStringTupleArray = richString.map { richString in
             get_lxw_rich_string_tuple(from: richString)
         }
 
@@ -102,13 +106,11 @@ public class Sheet {
             elements.append(nil)
 
             elements.withUnsafeMutableBufferPointer { pointer2 in
-                error = worksheet_write_rich_string(self.lxw_worksheet, r, c, pointer2.baseAddress, format)
+                error = worksheet_write_rich_string(self.lxw_worksheet, row, col, pointer2.baseAddress, format)
             }
         }
 
-        if let errorString = errorString(from: error) {
-            print("Error writing rich string \(errorString)")
-        }
+        return error
     }
 
     private func get_lxw_format(from format: Format?) -> UnsafeMutablePointer<lxw_format>? {

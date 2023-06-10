@@ -291,25 +291,25 @@ final class ExampleTests: XCTestCase {
         let fragment13 = RichString(" and this is ")
         let fragment14 = RichString("italic", format: italic)
 
-        sheet.write([fragment11, fragment12, fragment13, fragment14], location: Location("A1"))
+        sheet.write(.richString([fragment11, fragment12, fragment13, fragment14]), location: Location("A1"))
 
         let fragment21 = RichString("This is ")
         let fragment22 = RichString("red", format: red)
         let fragment23 = RichString(" and this is ")
         let fragment24 = RichString("blue", format: blue)
 
-        sheet.write([fragment21, fragment22, fragment23, fragment24], location: Location("A3"))
+        sheet.write(.richString([fragment21, fragment22, fragment23, fragment24]), location: Location("A3"))
 
         let fragment31 = RichString("Some ")
         let fragment32 = RichString("bold text", format: bold)
         let fragment33 = RichString(" centered")
 
-        sheet.write([fragment31, fragment32, fragment33], location: Location("A5"), format: center)
+        sheet.write(.richString([fragment31, fragment32, fragment33]), location: Location("A5"), format: center)
 
         let fragment41 = RichString("j =k", format: italic)
         let fragment42 = RichString("(n-1)", format: superscript)
 
-        sheet.write([fragment41, fragment42], location: Location("A7"), format: center)
+        sheet.write(.richString([fragment41, fragment42]), location: Location("A7"), format: center)
 
         document.close()
    }

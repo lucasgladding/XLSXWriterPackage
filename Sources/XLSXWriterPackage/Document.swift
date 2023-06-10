@@ -13,7 +13,7 @@ public class Document {
 
     private let lxw_workbook: UnsafeMutablePointer<lxw_workbook>
 
-    init(path: String) {
+    public init(path: String) {
         self.path = path
         self.lxw_workbook = path.withCString { workbook_new($0) }
     }
@@ -52,12 +52,5 @@ public class Document {
 
     public func close() {
         workbook_close(self.lxw_workbook)
-    }
-}
-
-extension Document {
-    convenience public init(filename: String) {
-        let documentURL = try! FileManager.default.documentURL(filename: filename)
-        self.init(path: documentURL.path)
     }
 }

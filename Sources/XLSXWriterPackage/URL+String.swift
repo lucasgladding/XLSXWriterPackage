@@ -1,5 +1,5 @@
 //
-//  URL+Custom.swift
+//  URL+String.swift
 //  
 //
 //  Created by Lucas Gladding on 2023-06-08.

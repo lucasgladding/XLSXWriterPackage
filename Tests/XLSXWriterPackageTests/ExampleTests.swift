@@ -11,7 +11,7 @@ import XLSXWriterPackage
 final class ExampleTests: XCTestCase {
 
     func testHelloWorld() throws {
-        let document = Document(filename: "hello_world.xlsx")
+        let document = Document(filename: "hello_world.xlsx")!
         let sheet = document.sheet()!
 
         sheet.write(.string("Hello"), location: Location(0, 0))
@@ -21,7 +21,7 @@ final class ExampleTests: XCTestCase {
     }
 
     func testAnatomy() throws {
-        let document = Document(filename: "anatomy.xlsx")
+        let document = Document(filename: "anatomy.xlsx")!
         let sheet1 = document.sheet(name: "Demo")!
         let sheet2 = document.sheet()!
 
@@ -46,7 +46,7 @@ final class ExampleTests: XCTestCase {
     }
 
     func testDemo() throws {
-        let document = Document(filename: "demo.xlsx")
+        let document = Document(filename: "demo.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -77,7 +77,7 @@ final class ExampleTests: XCTestCase {
             Expense(name: "Gym", cost: 50)
         ]
 
-        let document = Document(filename: "tutorial01.xlsx")
+        let document = Document(filename: "tutorial01.xlsx")!
         let sheet = document.sheet()!
 
         var row: Int = 0
@@ -108,7 +108,7 @@ final class ExampleTests: XCTestCase {
             Expense(name: "Gym", cost: 50)
         ]
 
-        let document = Document(filename: "tutorial02.xlsx")
+        let document = Document(filename: "tutorial02.xlsx")!
         let sheet = document.sheet()!
         var row = 0
         let col = 0
@@ -150,7 +150,7 @@ final class ExampleTests: XCTestCase {
             Expense(name: "Gym", cost: 50, date: get_date(year: 2013, month: 1, day: 20))
         ]
 
-        let document = Document(filename: "tutorial03.xlsx")
+        let document = Document(filename: "tutorial03.xlsx")!
         let sheet = document.sheet()!
         var row = 0
         let col = 0
@@ -187,7 +187,7 @@ final class ExampleTests: XCTestCase {
     func testDateAndTimes01() throws {
         let number = 41333.5
 
-        let document = Document(filename: "date_and_times01.xlsx")
+        let document = Document(filename: "date_and_times01.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -205,7 +205,7 @@ final class ExampleTests: XCTestCase {
     func testDateAndTimes02() throws {
         let date = get_date(year: 2013, month: 2, day: 28, hour: 12, minute: 0, second: 0)
 
-        let document = Document(filename: "date_and_times02.xlsx")
+        let document = Document(filename: "date_and_times02.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -220,7 +220,7 @@ final class ExampleTests: XCTestCase {
     }
 
     func testDateAndTimes03() throws {
-        let document = Document(filename: "date_and_times03.xlsx")
+        let document = Document(filename: "date_and_times03.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -236,7 +236,7 @@ final class ExampleTests: XCTestCase {
     }
 
     func testHyperlinks() throws {
-        let document = Document(filename: "hyperlinks.xlsx")
+        let document = Document(filename: "hyperlinks.xlsx")!
         let sheet = document.sheet()!
 
         let defaultURLFormat = document.defaultURLFormat!
@@ -263,7 +263,7 @@ final class ExampleTests: XCTestCase {
     }
 
     func testRichStrings() throws {
-        let document = Document(filename: "rich_strings.xlsx")
+        let document = Document(filename: "rich_strings.xlsx")!
         let sheet = document.sheet()!
 
         let bold = document.format()!
@@ -315,7 +315,7 @@ final class ExampleTests: XCTestCase {
    }
 
     func testArrayFormula() throws {
-        let document = Document(filename: "array_formula.xlsx")
+        let document = Document(filename: "array_formula.xlsx")!
         let sheet = document.sheet()!
 
         sheet.write(.number(500), location: Location(0, 1))

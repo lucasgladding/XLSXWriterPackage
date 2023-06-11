@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "33FE05BF-6D47-4961-8312-E583B7F5D288",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "XLSXWriterPackageTests",
+        "name" : "XLSXWriterPackageTests"
+      }
+    }
+  ],
+  "version" : 1
+}

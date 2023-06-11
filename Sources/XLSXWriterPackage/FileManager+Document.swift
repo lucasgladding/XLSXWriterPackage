@@ -9,10 +9,10 @@ import Foundation
 
 extension FileManager {
     func documentURL(filename: String) throws -> URL {
-        try documentDirectoryURL.appendingPathComponent(filename)
+        try userDocumentDirectoryURL.appendingPathComponent(filename)
     }
 
-    private var documentDirectoryURL: URL {
+    private var userDocumentDirectoryURL: URL {
         get throws {
             try url(
                 for: .documentDirectory,

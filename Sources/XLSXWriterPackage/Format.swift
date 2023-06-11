@@ -65,34 +65,34 @@ public class Format {
 
     public func set(_ options: Options) {
         switch options {
-        case .alignment(let options):
-            if let alignment = get_lxw_alignment(from: options) {
+        case .alignment(let input):
+            if let alignment = get_lxw_alignment(from: input) {
                 format_set_align(self.lxw_format, alignment)
             }
-        case .backgroundColor(let options):
-            if let backgroundColor = get_lxw_color(from: options) {
+        case .backgroundColor(let input):
+            if let backgroundColor = get_lxw_color(from: input) {
                 format_set_bg_color(self.lxw_format, backgroundColor)
             }
-        case .border(let options):
-            if let border = get_lxw_border(from: options) {
+        case .border(let input):
+            if let border = get_lxw_border(from: input) {
                 format_set_border(self.lxw_format, border)
             }
         case .bold:
             format_set_bold(self.lxw_format)
-        case .fontColor(let options):
-            if let fontColor = get_lxw_color(from: options) {
+        case .fontColor(let input):
+            if let fontColor = get_lxw_color(from: input) {
                 format_set_font_color(self.lxw_format, fontColor)
             }
-        case .fontScript(let options):
-            if let fontScript = get_lxw_script(from: options) {
+        case .fontScript(let input):
+            if let fontScript = get_lxw_script(from: input) {
                 format_set_font_script(self.lxw_format, fontScript)
             }
         case .italic:
             format_set_italic(self.lxw_format)
-        case .number(let options):
-            options.withCString { format_set_num_format(self.lxw_format, $0) }
-        case .underline(let options):
-            if let underline = get_lxw_underline(from: options) {
+        case .number(let input):
+            input.withCString { format_set_num_format(self.lxw_format, $0) }
+        case .underline(let input):
+            if let underline = get_lxw_underline(from: input) {
                 format_set_underline(self.lxw_format, underline)
             }
         }

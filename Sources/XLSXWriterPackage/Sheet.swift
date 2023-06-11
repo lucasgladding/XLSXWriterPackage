@@ -27,8 +27,7 @@ public class Sheet {
     }
 
     public func column(width: Double, first: Int, last: Int, format: Format? = nil) {
-        let format = get_lxw_format(from: format)
-        worksheet_set_column(self.lxw_worksheet, UInt16(first), UInt16(last), width, format)
+        worksheet_set_column(self.lxw_worksheet, UInt16(first), UInt16(last), width, format?.lxw_format)
     }
 
     public func merge(_ string: String, range: Range, format: Format? = nil) {
@@ -36,14 +35,13 @@ public class Sheet {
         let c1 = UInt16(range.location1.col)
         let r2 = UInt32(range.location2.row)
         let c2 = UInt16(range.location2.col)
-        let format = get_lxw_format(from: format)
+        let format = format?.lxw_format
 
         _ = string.withCString { worksheet_merge_range(self.lxw_worksheet, r1, c1, r2, c2, $0, format) }
     }
 
     public func row(height: Double, row: Int, format: Format? = nil) {
-        let format = get_lxw_format(from: format)
-        worksheet_set_row(self.lxw_worksheet, UInt32(row), Double(height), format)
+        worksheet_set_row(self.lxw_worksheet, UInt32(row), Double(height), format?.lxw_format)
     }
 
     public func write(_ content: Content, location: Location, format: Format? = nil) {
@@ -51,11 +49,11 @@ public class Sheet {
 
         let r = UInt32(location.row)
         let c = UInt16(location.col)
-        let format = get_lxw_format(from: format)
+        let format = format?.lxw_format
 
         switch content {
         case .date(let date):
-            var datetime = get_lxw_datetime(from: date)
+            var datetime = date.lxwDateTime
             worksheet_write_datetime(self.lxw_worksheet, r, c, &datetime, format)
         case .formula(let formula):
             error = formula.withCString { worksheet_write_formula(self.lxw_worksheet, r, c, $0, format) }
@@ -85,7 +83,7 @@ public class Sheet {
         let c1 = UInt16(range.location1.col)
         let r2 = UInt32(range.location2.row)
         let c2 = UInt16(range.location2.col)
-        let format = get_lxw_format(from: format)
+        let format = format?.lxw_format
 
         switch content {
         case .formula(let formula):
@@ -110,7 +108,7 @@ public class Sheet {
         var error: lxw_error?
 
         var richStringTupleArray = richString.map { richString in
-            get_lxw_rich_string_tuple(from: richString)
+            richString.lxwRichStringTuple
         }
 
         richStringTupleArray.withUnsafeMutableBufferPointer { pointer1 in
@@ -127,29 +125,6 @@ public class Sheet {
         }
 
         return error
-    }
-
-    private func get_lxw_format(from format: Format?) -> UnsafeMutablePointer<lxw_format>? {
-        format?.lxw_format
-    }
-
-    private func get_lxw_datetime(from date: Date) -> lxw_datetime {
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        return lxw_datetime(
-            year: Int32(components.year!),
-            month: Int32(components.month!),
-            day: Int32(components.day!),
-            hour: Int32(components.hour!),
-            min: Int32(components.minute!),
-            sec: Double(components.second!)
-        )
-    }
-
-    private func get_lxw_rich_string_tuple(from richString: RichString) -> lxw_rich_string_tuple {
-        lxw_rich_string_tuple(
-            format: get_lxw_format(from: richString.format),
-            string: richString.string.cString
-        )
     }
 
     private func errorString(from error: lxw_error?) -> String? {

@@ -8,7 +8,8 @@
 import Foundation
 
 extension URL {
-    var path: String {
-        String(absoluteString.dropFirst(6))
+    public var protocolRelativeString: String {
+        let count = scheme?.count ?? 0
+        return String(absoluteString.dropFirst(count + 2))
     }
 }

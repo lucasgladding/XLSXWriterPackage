@@ -26,8 +26,24 @@ public class Sheet {
         self.lxw_worksheet = lxw_worksheet
     }
 
-    public func set(width: Double, first: Int, last: Int) {
-        worksheet_set_column(self.lxw_worksheet, UInt16(first), UInt16(last), width, nil)
+    public func column(width: Double, first: Int, last: Int, format: Format? = nil) {
+        let format = get_lxw_format(from: format)
+        worksheet_set_column(self.lxw_worksheet, UInt16(first), UInt16(last), width, format)
+    }
+
+    public func merge(_ string: String, range: Range, format: Format? = nil) {
+        let r1 = UInt32(range.location1.row)
+        let c1 = UInt16(range.location1.col)
+        let r2 = UInt32(range.location2.row)
+        let c2 = UInt16(range.location2.col)
+        let format = get_lxw_format(from: format)
+
+        _ = string.withCString { worksheet_merge_range(self.lxw_worksheet, r1, c1, r2, c2, $0, format) }
+    }
+
+    public func row(height: Double, row: Int, format: Format? = nil) {
+        let format = get_lxw_format(from: format)
+        worksheet_set_row(self.lxw_worksheet, UInt32(row), Double(height), format)
     }
 
     public func write(_ content: Content, location: Location, format: Format? = nil) {

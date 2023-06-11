@@ -7,7 +7,6 @@
 
 import XCTest
 
-
 final class URLTests: XCTestCase {
 
     func testProtocolRelativeString() throws {

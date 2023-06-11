@@ -11,6 +11,11 @@ import libxlsxwriter
 public class Format {
     public enum Alignment {
         case center
+        case verticalCenter
+    }
+
+    public enum Border {
+        case thin
     }
 
     public enum Color {
@@ -42,7 +47,9 @@ public class Format {
 
     public enum Options {
         case alignment(Alignment)
+        case backgroundColor(Color)
         case bold
+        case border(Border)
         case fontColor(Color)
         case fontScript(Script)
         case italic
@@ -58,26 +65,34 @@ public class Format {
 
     public func set(_ options: Options) {
         switch options {
-        case .alignment(let input):
-            if let alignment = get_lxw_alignment(from: input) {
+        case .alignment(let options):
+            if let alignment = get_lxw_alignment(from: options) {
                 format_set_align(self.lxw_format, alignment)
+            }
+        case .backgroundColor(let options):
+            if let backgroundColor = get_lxw_color(from: options) {
+                format_set_bg_color(self.lxw_format, backgroundColor)
+            }
+        case .border(let options):
+            if let border = get_lxw_border(from: options) {
+                format_set_border(self.lxw_format, border)
             }
         case .bold:
             format_set_bold(self.lxw_format)
-        case .fontColor(let input):
-            if let fontColor = get_lxw_color(from: input) {
+        case .fontColor(let options):
+            if let fontColor = get_lxw_color(from: options) {
                 format_set_font_color(self.lxw_format, fontColor)
             }
-        case .fontScript(let input):
-            if let fontScript = get_lxw_script(from: input) {
+        case .fontScript(let options):
+            if let fontScript = get_lxw_script(from: options) {
                 format_set_font_script(self.lxw_format, fontScript)
             }
         case .italic:
             format_set_italic(self.lxw_format)
-        case .number(let input):
-            input.withCString { format_set_num_format(self.lxw_format, $0) }
-        case .underline(let input):
-            if let underline = get_lxw_underline(from: input) {
+        case .number(let options):
+            options.withCString { format_set_num_format(self.lxw_format, $0) }
+        case .underline(let options):
+            if let underline = get_lxw_underline(from: options) {
                 format_set_underline(self.lxw_format, underline)
             }
         }
@@ -85,9 +100,20 @@ public class Format {
 
     private func get_lxw_alignment(from alignment: Alignment) -> UInt8? {
         let styles: [Alignment: lxw_format_alignments] = [
-            .center: LXW_ALIGN_CENTER
+            .center: LXW_ALIGN_CENTER,
+            .verticalCenter: LXW_ALIGN_VERTICAL_CENTER
         ]
         guard let style = styles[alignment] else {
+            return nil
+        }
+        return UInt8(style.rawValue)
+    }
+
+    private func get_lxw_border(from border: Border) -> UInt8? {
+        let styles: [Border: lxw_format_borders] = [
+            .thin: LXW_BORDER_THIN
+        ]
+        guard let style = styles[border] else {
             return nil
         }
         return UInt8(style.rawValue)

@@ -312,7 +312,7 @@ final class ExampleTests: XCTestCase {
         sheet.write(.richString([fragment41, fragment42]), location: Location("A7"), format: center)
 
         document.close()
-   }
+    }
 
     func testArrayFormula() throws {
         let document = Document(filename: "array_formula.xlsx")!
@@ -365,6 +365,33 @@ final class ExampleTests: XCTestCase {
 
         sheet.merge("Merged Range", range: Range(3, 1, 3, 3), format: mergeFormat)
         sheet.merge("Merged Range", range: Range(6, 1, 7, 3), format: mergeFormat)
+
+        document.close()
+    }
+
+    func testMergeRichString() throws {
+        let document = Document(filename: "merge_rich_string.xlsx")!
+        let sheet = document.sheet()!
+
+        let mergeFormat = document.format()!
+        mergeFormat.set(.alignment(.center))
+        mergeFormat.set(.alignment(.verticalCenter))
+        mergeFormat.set(.border(.thin))
+
+        let red = document.format()!
+        red.set(.fontColor(.red))
+
+        let blue = document.format()!
+        blue.set(.fontColor(.blue))
+
+        let fragment1 = RichString("This is ")
+        let fragment2 = RichString("red", format: red)
+        let fragment3 = RichString(" and this is ")
+        let fragment4 = RichString("blue", format: blue)
+
+        sheet.merge("", range: Range(1, 1, 4, 3), format: mergeFormat)
+
+        sheet.write(.richString([fragment1, fragment2, fragment3, fragment4]), location: Location(1, 1), format: mergeFormat)
 
         document.close()
     }

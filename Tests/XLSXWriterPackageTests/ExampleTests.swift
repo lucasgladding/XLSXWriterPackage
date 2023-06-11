@@ -396,6 +396,35 @@ final class ExampleTests: XCTestCase {
         document.close()
     }
 
+    func testConditionalFormatSimple() throws {
+        let document = Document(filename: "conditional_format_simple.xlsx")!
+        let sheet = document.sheet()!
+
+        sheet.write(.number(34), location: Location("B1"))
+        sheet.write(.number(32), location: Location("B2"))
+        sheet.write(.number(31), location: Location("B3"))
+        sheet.write(.number(35), location: Location("B4"))
+        sheet.write(.number(36), location: Location("B5"))
+        sheet.write(.number(30), location: Location("B6"))
+        sheet.write(.number(38), location: Location("B7"))
+        sheet.write(.number(38), location: Location("B8"))
+        sheet.write(.number(32), location: Location("B9"))
+
+        let customFormat = document.format()!
+        customFormat.set(.fontColor(.red))
+
+        let conditionalFormat = ConditionalFormat(
+            type: .cell,
+            criteria: .lessThan,
+            value: 33,
+            format: customFormat
+        )
+
+        sheet.set(conditionalFormat, range: Range("B1:B9"))
+
+        document.close()
+    }
+
 }
 
 func get_date(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {

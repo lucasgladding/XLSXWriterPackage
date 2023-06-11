@@ -156,7 +156,7 @@ public class Format {
         case .italic:
             format_set_italic(self.lxw_format)
         case .number(let input):
-            format_set_num_format(self.lxw_format, input.cString)
+            input.withCString { format_set_num_format(self.lxw_format, $0) }
         case .underline(let input):
             if let option = input.lxwUnderline {
                 format_set_underline(self.lxw_format, option)

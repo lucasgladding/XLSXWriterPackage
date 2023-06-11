@@ -22,7 +22,6 @@ public class Document {
         guard let lxw_worksheet = get_lxw_worksheet(name: name) else {
             return nil
         }
-
         return Sheet(lxw_worksheet: lxw_worksheet)
     }
 
@@ -38,7 +37,6 @@ public class Document {
         guard let lxw_format = workbook_add_format(self.lxw_workbook) else {
             return nil
         }
-
         return Format(lxw_format: lxw_format)
     }
 
@@ -46,7 +44,6 @@ public class Document {
         guard let lxw_format = workbook_get_default_url_format(self.lxw_workbook) else {
             return nil
         }
-
         return Format(lxw_format: lxw_format)
     }
 

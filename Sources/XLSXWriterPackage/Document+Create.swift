@@ -12,6 +12,7 @@ extension Document {
         guard let documentURL = try? FileManager.default.documentURL(filename: filename) else {
             return nil
         }
+        
         self.init(path: documentURL.path)
     }
 }

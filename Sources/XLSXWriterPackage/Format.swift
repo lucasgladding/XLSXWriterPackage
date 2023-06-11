@@ -24,7 +24,7 @@ public class Format {
     public enum Alignment {
         case center
         case verticalCenter
-        
+
         var lxwAlignment: UInt8? {
             let options: [Alignment: lxw_format_alignments] = [
                 .center: LXW_ALIGN_CENTER,
@@ -39,7 +39,7 @@ public class Format {
 
     public enum Border {
         case thin
-        
+
         var lxwBorder: UInt8? {
             let options: [Border: lxw_format_borders] = [
                 .thin: LXW_BORDER_THIN
@@ -95,7 +95,7 @@ public class Format {
 
     public enum Script {
         case superscript
-        
+
         var lxwScript: UInt8? {
             let options: [Script: lxw_format_scripts] = [
                 .superscript: LXW_FONT_SUPERSCRIPT
@@ -110,7 +110,7 @@ public class Format {
     public enum Underline {
         case double
         case single
-        
+
         var lxwUnderline: UInt8? {
             let options: [Underline: lxw_format_underlines] = [
                 .double: LXW_UNDERLINE_DOUBLE,

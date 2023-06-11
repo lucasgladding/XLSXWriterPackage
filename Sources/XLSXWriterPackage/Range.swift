@@ -16,18 +16,13 @@ public struct Range {
         self.location1 = Location(row1, col1)
         self.location2 = Location(row2, col2)
     }
-}
 
-extension Range {
     public init(_ string: String) {
-        let components = string.withCString { cString in
-            return (
-                Int(lxw_name_to_row(cString)),
-                Int(lxw_name_to_col(cString)),
-                Int(lxw_name_to_row_2(cString)),
-                Int(lxw_name_to_col_2(cString))
-            )
-        }
-        self.init(components.0, components.1, components.2, components.3)
+        self.init(
+            Int(lxw_name_to_row(string.cString)),
+            Int(lxw_name_to_col(string.cString)),
+            Int(lxw_name_to_row_2(string.cString)),
+            Int(lxw_name_to_col_2(string.cString))
+        )
     }
 }

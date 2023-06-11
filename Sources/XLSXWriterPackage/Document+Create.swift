@@ -1,5 +1,5 @@
 //
-//  Document+Creation.swift
+//  Document+Create.swift
 //  
 //
 //  Created by Lucas Gladding on 2023-06-10.
@@ -8,7 +8,7 @@
 import Foundation
 
 extension Document {
-    convenience public init?(filename: String) {
+    public convenience init?(filename: String) {
         guard let documentURL = try? FileManager.default.documentURL(filename: filename) else {
             return nil
         }

@@ -31,7 +31,7 @@ final class ExampleTests: XCTestCase {
         format1.set(.bold)
         format2.set(.number("$#,##0.00"))
 
-        sheet1.column(width: 20, first: 0, last: 0)
+        sheet1.width(20, first: 0, last: 0)
 
         sheet1.write(.string("Peach"), location: Location(0, 0))
         sheet1.write(.string("Plum"), location: Location(1, 0))
@@ -53,7 +53,7 @@ final class ExampleTests: XCTestCase {
 
         format.set(.bold)
 
-        sheet.column(width: 20, first: 0, last: 0)
+        sheet.width(20, first: 0, last: 0)
 
         sheet.write(.string("Hello"), location: Location(0, 0))
         sheet.write(.string("World"), location: Location(1, 0), format: format)
@@ -165,7 +165,7 @@ final class ExampleTests: XCTestCase {
         let dateFormat = document.format()!
         dateFormat.set(.number("mmmm d yyyy"))
 
-        sheet.column(width: 15, first: 0, last: 0)
+        sheet.width(15, first: 0, last: 0)
 
         sheet.write(.string("Item"), location: Location(row, col), format: bold)
         sheet.write(.string("Cost"), location: Location(row, col + 1), format: bold)
@@ -193,7 +193,7 @@ final class ExampleTests: XCTestCase {
         let format = document.format()!
         format.set(.number("mmm d yyyy hh:mm AM/PM"))
 
-        sheet.column(width: 20, first: 0, last: 0)
+        sheet.width(20, first: 0, last: 0)
 
         sheet.write(.number(number), location: Location(0, 0))
 
@@ -211,7 +211,7 @@ final class ExampleTests: XCTestCase {
         let format = document.format()!
         format.set(.number("mmm d yyyy hh:mm AM/PM"))
 
-        sheet.column(width: 20, first: 0, last: 0)
+        sheet.width(20, first: 0, last: 0)
 
         sheet.write(.date(date), location: Location(0, 0))
         sheet.write(.date(date), location: Location(1, 0), format: format)
@@ -226,7 +226,7 @@ final class ExampleTests: XCTestCase {
         let format = document.format()!
         format.set(.number("mmm d yyyy hh:mm AM/PM"))
 
-        sheet.column(width: 20, first: 0, last: 0)
+        sheet.width(20, first: 0, last: 0)
 
         sheet.write(.unix(0), location: Location(0, 0), format: format)
         sheet.write(.unix(1577836800), location: Location(1, 0), format: format)
@@ -245,7 +245,7 @@ final class ExampleTests: XCTestCase {
         errorFormat.set(.underline(.single))
         errorFormat.set(.fontColor(.red))
 
-        sheet.column(width: 30, first: 0, last: 0)
+        sheet.width(30, first: 0, last: 0)
 
         sheet.write(.url("http://libxlsxwriter.github.io"), location: Location(0, 0))
 
@@ -284,7 +284,7 @@ final class ExampleTests: XCTestCase {
         let superscript = document.format()!
         superscript.set(.fontScript(.superscript))
 
-        sheet.column(width: 30, first: 0, last: 0)
+        sheet.width(30, first: 0, last: 0)
 
         let fragment11 = RichString("This is ")
         let fragment12 = RichString("bold", format: bold)
@@ -358,10 +358,10 @@ final class ExampleTests: XCTestCase {
         mergeFormat.set(.backgroundColor(.yellow))
         mergeFormat.set(.border(.thin))
 
-        sheet.column(width: 12, first: 1, last: 3)
-        sheet.row(height: 30, row: 3)
-        sheet.row(height: 30, row: 6)
-        sheet.row(height: 30, row: 7)
+        sheet.width(12, first: 1, last: 3)
+        sheet.height(30, row: 3)
+        sheet.height(30, row: 6)
+        sheet.height(30, row: 7)
 
         sheet.merge("Merged Range", range: Range(3, 1, 3, 3), format: mergeFormat)
         sheet.merge("Merged Range", range: Range(6, 1, 7, 3), format: mergeFormat)
@@ -420,7 +420,7 @@ final class ExampleTests: XCTestCase {
             format: customFormat
         )
 
-        sheet.set(conditionalFormat, range: Range("B1:B9"))
+        sheet.format(conditionalFormat, range: Range("B1:B9"))
 
         document.close()
     }

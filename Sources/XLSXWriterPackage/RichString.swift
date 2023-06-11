@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  RichString.swift
 //  
 //
 //  Created by Lucas Gladding on 2023-06-08.
@@ -16,9 +16,7 @@ public struct RichString {
         self.string = string
         self.format = format
     }
-}
 
-extension RichString {
     var lxwRichStringTuple: lxw_rich_string_tuple {
         lxw_rich_string_tuple(
             format: format?.lxw_format,

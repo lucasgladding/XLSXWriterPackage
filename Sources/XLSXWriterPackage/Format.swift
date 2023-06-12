@@ -22,11 +22,13 @@ public class Format {
     }
 
     public enum Alignment {
+        case left
         case center
         case verticalCenter
 
         var lxwAlignment: UInt8? {
             let options: [Alignment: lxw_format_alignments] = [
+                .left: LXW_ALIGN_LEFT,
                 .center: LXW_ALIGN_CENTER,
                 .verticalCenter: LXW_ALIGN_VERTICAL_CENTER
             ]

@@ -184,10 +184,10 @@ final class ExampleTests: XCTestCase {
         document.close()
     }
 
-    func testDateAndTimes01() throws {
+    func testDatesAndTimes01() throws {
         let number = 41333.5
 
-        let document = Document(filename: "date_and_times01.xlsx")!
+        let document = Document(filename: "dates_and_times01.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -202,10 +202,10 @@ final class ExampleTests: XCTestCase {
         document.close()
     }
 
-    func testDateAndTimes02() throws {
+    func testDatesAndTimes02() throws {
         let date = get_date(year: 2013, month: 2, day: 28, hour: 12, minute: 0, second: 0)
 
-        let document = Document(filename: "date_and_times02.xlsx")!
+        let document = Document(filename: "dates_and_times02.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -219,8 +219,8 @@ final class ExampleTests: XCTestCase {
         document.close()
     }
 
-    func testDateAndTimes03() throws {
-        let document = Document(filename: "date_and_times03.xlsx")!
+    func testDatesAndTimes03() throws {
+        let document = Document(filename: "dates_and_times03.xlsx")!
         let sheet = document.sheet()!
 
         let format = document.format()!
@@ -231,6 +231,53 @@ final class ExampleTests: XCTestCase {
         sheet.write(.unix(0), location: Location(0, 0), format: format)
         sheet.write(.unix(1577836800), location: Location(1, 0), format: format)
         sheet.write(.unix(-2208988800), location: Location(2, 0), format: format)
+
+        document.close()
+    }
+
+    func testDatesAndTimes04() throws {
+        let date = get_date(year: 2013, month: 1, day: 23, hour: 12, minute: 30, second: 5, nanosecond: 123_000_000)
+        var row = 0
+        let col = 0
+
+        let dateFormats = [
+            "dd/mm/yy",
+            "mm/dd/yy",
+            "dd m yy",
+            "d mm yy",
+            "d mmm yy",
+            "d mmmm yy",
+            "d mmmm yyy",
+            "d mmmm yyyy",
+            "dd/mm/yy hh:mm",
+            "dd/mm/yy hh:mm:ss",
+            "dd/mm/yy hh:mm:ss.000",
+            "hh:mm",
+            "hh:mm:ss",
+            "hh:mm:ss.000"
+        ]
+
+        let document = Document(filename: "dates_and_times04.xlsx")!
+        let sheet = document.sheet()!
+
+        let bold = document.format()!
+        bold.set(.bold)
+
+        sheet.write(.string("Formatted date"), location: Location(row, col), format: bold)
+        sheet.write(.string("Format"), location: Location(row, col + 1), format: bold)
+
+        sheet.width(20, first: 0, last: 0)
+
+        for i in 0..<14 {
+            row += 1
+
+            let format = document.format()!
+            format.set(.number(dateFormats[i]))
+            format.set(.alignment(.left))
+
+            sheet.write(.date(date), location: Location(row, col), format: format)
+            sheet.write(.string(dateFormats[i]), location: Location(row, col + 1))
+        }
 
         document.close()
     }
@@ -396,8 +443,8 @@ final class ExampleTests: XCTestCase {
         document.close()
     }
 
-    func testConditionalFormatSimple() throws {
-        let document = Document(filename: "conditional_format_simple.xlsx")!
+    func testConditionalFormat01() throws {
+        let document = Document(filename: "conditional_format01.xlsx")!
         let sheet = document.sheet()!
 
         sheet.write(.number(34), location: Location("B1"))
@@ -427,6 +474,6 @@ final class ExampleTests: XCTestCase {
 
 }
 
-func get_date(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {
-    Calendar.current.date(from: DateComponents(year: year, month: month, day: day, hour: hour, minute: minute, second: second))!
+func get_date(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0, nanosecond: Int = 0) -> Date {
+    Calendar.current.date(from: DateComponents(year: year, month: month, day: day, hour: hour, minute: minute, second: second, nanosecond: nanosecond))!
 }

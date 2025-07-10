@@ -43,11 +43,13 @@ public class Format {
 
     public enum Border {
         case thin
+        case thick
         case double
 
         var lxwBorder: UInt8? {
             let options: [Border: lxw_format_borders] = [
                 .thin: LXW_BORDER_THIN,
+                .thick: LXW_BORDER_THICK,
                 .double: LXW_BORDER_DOUBLE
             ]
             guard let option = options[self] else {

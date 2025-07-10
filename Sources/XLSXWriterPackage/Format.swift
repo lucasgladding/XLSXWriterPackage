@@ -14,6 +14,8 @@ public class Format {
         case backgroundColor(Color)
         case bold
         case border(Border)
+        case top(Border)
+        case bottom(Border)
         case fontColor(Color)
         case fontScript(Script)
         case italic
@@ -41,10 +43,12 @@ public class Format {
 
     public enum Border {
         case thin
+        case double
 
         var lxwBorder: UInt8? {
             let options: [Border: lxw_format_borders] = [
-                .thin: LXW_BORDER_THIN
+                .thin: LXW_BORDER_THIN,
+                .double: LXW_BORDER_DOUBLE
             ]
             guard let option = options[self] else {
                 return nil
@@ -144,6 +148,14 @@ public class Format {
         case .border(let input):
             if let option = input.lxwBorder {
                 format_set_border(self.lxw_format, option)
+            }
+        case .top(let input):
+            if let option = input.lxwBorder {
+                format_set_top(self.lxw_format, option)
+            }
+        case .bottom(let input):
+            if let option = input.lxwBorder {
+                format_set_bottom(self.lxw_format, option)
             }
         case .bold:
             format_set_bold(self.lxw_format)
